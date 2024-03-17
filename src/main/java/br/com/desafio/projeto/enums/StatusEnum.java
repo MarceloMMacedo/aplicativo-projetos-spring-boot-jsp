@@ -1,19 +1,19 @@
 package br.com.desafio.projeto.enums;
 
 public enum StatusEnum {
-    EMANALISE("Em Analise", 1),
-    ANALISEREALIZADA("Analise Realizada", 2),
-    ANALISEAPROVADA("Analise Aprovada", 3),
-    INICIADO("Iniciado", 4),
-    PLANEJADO("Planejado", 5),
-    EMANDAMENTO("Em Andamento", 6),
-    ENCERRADO("Encerrado", 7),
-    CANCELADO("Cancelado", 8);
+    EMANALISE("Em Analise", "EM_ANALISE"),
+    ANALISEREALIZADA("Analise Realizada", "ANALISE_REALIZADA"),
+    ANALISEAPROVADA("Analise Aprovada", "ANALISE_APROVADA"),
+    INICIADO("Iniciado", "INICIADO"),
+    PLANEJADO("Planejado", "PLANEJADO"),
+    EMANDAMENTO("Em Andamento", "EM_ANDAMENTO"),
+    ENCERRADO("Encerrado", "ENCERRADO"),
+    CANCELADO("Cancelado", "CANCELADO");
 
     private final String name;
-    private final int id;
+    private final String id;
 
-    private StatusEnum(String name, int id) {
+    private StatusEnum(String name, String id) {
         this.name = name;
         this.id = id;
     }
@@ -22,26 +22,26 @@ public enum StatusEnum {
         return name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public static String returnName(int id) {
-        for (StatusEnum e : StatusEnum.values()) {
-            if (e.getId() == id) {
-                return e.getName();
-            }
-        }
-        return null;
-    }
-
-    public static int returnId(String name) {
+    public static String returnId(String name) {
         for (StatusEnum e : StatusEnum.values()) {
             if (e.getName().equals(name)) {
                 return e.getId();
             }
         }
-        return 0;
+        return null;
+    }
+
+    public static String returnName(String id) {
+        for (StatusEnum e : StatusEnum.values()) {
+            if (e.getId().equals(id)) {
+                return e.getName();
+            }
+        }
+        return null;
     }
 
 }

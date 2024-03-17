@@ -1,4 +1,4 @@
-package br.com.desafio.projeto.enums.converters;
+package br.com.desafio.projeto.conversores;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -6,10 +6,10 @@ import javax.persistence.Converter;
 import br.com.desafio.projeto.enums.RiscoEnum;
 
 @Converter
-public class RiscoConverter implements AttributeConverter<String, Integer> {
+public class RiscoConverter implements AttributeConverter<String, String> {
 
     @Override
-    public Integer convertToDatabaseColumn(String arg0) {
+    public String convertToDatabaseColumn(String arg0) {
         if (arg0 == null) {
             return null;
         }
@@ -17,7 +17,7 @@ public class RiscoConverter implements AttributeConverter<String, Integer> {
     }
 
     @Override
-    public String convertToEntityAttribute(Integer arg0) {
+    public String convertToEntityAttribute(String arg0) {
         if (arg0 == null) {
             return null;
         }

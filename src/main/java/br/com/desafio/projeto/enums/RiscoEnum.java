@@ -1,14 +1,14 @@
 package br.com.desafio.projeto.enums;
 
 public enum RiscoEnum {
-    BAIXORISCO("Baixo Risco", 1),
-    MEDIORISCO("Médio Risco", 2),
-    ALTORISCO("Alto Risco", 3);
+    BAIXORISCO("Baixo Risco", "BAIXO_RISCO"),
+    MEDIORISCO("Médio Risco", "MEDIO_RISCO"),
+    ALTORISCO("Alto Risco", "ALTO_RISCO");
 
     private final String name;
-    private final int id;
+    private final String id;
 
-    private RiscoEnum(String name, int id) {
+    private RiscoEnum(String name, String id) {
         this.name = name;
         this.id = id;
     }
@@ -17,34 +17,26 @@ public enum RiscoEnum {
         return name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public static String returnName(int id) {
+    public static String returnName(String id) {
         for (RiscoEnum e : RiscoEnum.values()) {
-            if (e.getId() == id) {
+            if (e.getId().equals(id)) {
                 return e.getName();
             }
         }
         return null;
     }
 
-    public static int returnId(String name) {
+    public static String returnId(String name) {
         for (RiscoEnum e : RiscoEnum.values()) {
             if (e.getName().equals(name)) {
                 return e.getId();
             }
         }
-        return 0;
-    }
-
-    public static RiscoEnum returnEnum(int id) {
-        for (RiscoEnum e : RiscoEnum.values()) {
-            if (e.getId() == id) {
-                return e;
-            }
-        }
         return null;
     }
+
 }

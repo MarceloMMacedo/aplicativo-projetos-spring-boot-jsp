@@ -1,4 +1,3 @@
-<%-- <%@page contentType="text/html" pageEncoding="UTF-8"%> --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@tag description="Simple Wrapper Tag" pageEncoding="UTF-8"%>
 
@@ -11,21 +10,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>Desafio Java</title>
-<link rel="stylesheet" type="text/css"
-	href="<c:url value=" /static/node_modules/bootstrap/dist/css/bootstrap.min.css" />" />
 
-<link rel="stylesheet" type="text/css"
-	href="<c:url value="/static/navbar.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/static/node_modules/bootstrap/dist/css/bootstrap.min.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/static/navbar.css" />" />
+
 <body>
 
-	<jsp:include page="/WEB-INF/jsp/componentes/cabecalho.jsp"></jsp:include>
-	<jsp:doBody/>
-<%-- 	<jsp:include page="${contentPage}" /> --%>
-	<script
-		src="<c:url value="/static/node_modules/bootstrap/dist/js/bootstrap.min.js" />"></script>
+<jsp:include page="/WEB-INF/jsp/componentes/cabecalho.jsp"></jsp:include>
+<jsp:doBody/>
+<script src="<c:url value="/static/node_modules/bootstrap/dist/js/bootstrap.min.js" />"></script>
+<script src="<c:url value="/static/nvabar.js" />"></script>
 
-	<script src="<c:url value="/static/nvabar.js" />"></script>
-	<%--    <jsp:include page="./componentes/javascriptfiles.jsp"></jsp:include> --%>
 </body>
 
 </html>

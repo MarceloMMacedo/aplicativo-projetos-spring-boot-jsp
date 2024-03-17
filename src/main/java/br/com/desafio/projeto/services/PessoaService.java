@@ -51,7 +51,7 @@ public class PessoaService {
         pessoaRepository.deleteById(id);
     }
 
-    public void atualizarPessoa(Long id, String entity) {
+    public void atualizarPessoa(Long id, Pessoa entity) {
 
         if (!pessoaRepository.existsById(id)) {
             throw new EntityNotFoundException("Pessoa não encontrada com o ID: " + id);

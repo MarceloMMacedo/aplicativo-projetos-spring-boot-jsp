@@ -9,6 +9,7 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import br.com.desafio.projeto.enums.StatusCondicionalEnum;
 import br.com.desafio.projeto.exceptions.EntityNotFoundException;
 import br.com.desafio.projeto.exceptions.UnsavedEntityException;
 import br.com.desafio.projeto.models.Pessoa;
@@ -67,7 +68,7 @@ public class ProjetoService {
         Pessoa membro = pessoaRepository.findById(membroId)
                 .orElseThrow(() -> new EntityNotFoundException("Pessoa não encontrada com o ID: " + membroId));
 
-        if (membro.getFuncionario()) {
+        if (membro.getFuncionario().equals(StatusCondicionalEnum.SIM.getName())) {
             projeto.getMembros().add(membro);
             try {
                 projetoRepository.save(projeto);

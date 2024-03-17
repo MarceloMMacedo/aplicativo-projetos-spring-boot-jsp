@@ -17,8 +17,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import br.com.desafio.projeto.enums.converters.RiscoConverter;
-import br.com.desafio.projeto.enums.converters.StatusConverter;
+import br.com.desafio.projeto.conversores.RiscoConverter;
+import br.com.desafio.projeto.conversores.StatusConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

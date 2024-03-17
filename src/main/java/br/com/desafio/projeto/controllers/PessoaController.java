@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.desafio.projeto.models.Pessoa;
@@ -30,31 +28,22 @@ public class PessoaController {
     @GetMapping("/adicionar")
     public String exibirFormularioAdicionar(Model model) {
         model.addAttribute("funcionario", new Pessoa());
-        return "adicionar-pessoa";
+        return "funcionario/adicionar-funcionario";
     }
 
     @PostMapping("/adicionar")
-    public String adicionarPessoa(@RequestBody Pessoa pessoaRequest) {
+    public String adicionarPessoa(@ModelAttribute Pessoa pessoaRequest) {
 
         pessoaService.criarPessoa(pessoaRequest);
 
-        return "redirect:/pessoas/";
+        return "redirect:/funcionarios/";
     }
 
-    @PutMapping("/{id}")
-    public String putMethodName(@PathVariable Long id, @RequestBody String entity) {
-        pessoaService.atualizarPessoa(id, entity);
+    @PostMapping("/atualizar")
+    public String putMethodName(@ModelAttribute Pessoa pessoa) {
+        pessoaService.atualizarPessoa(pessoa.getId(), pessoa);
 
-        return entity;
-    }
-
-    @GetMapping("/{id}")
-    public String exibirDetalhesPessoa(@PathVariable Long id, Model model) {
-
-        Pessoa pessoa = pessoaService.obterPessoaPorId(id);
-        model.addAttribute("funcionario", pessoa);
-        return "detalhes-pessoa";
-
+        return "redirect:/funcionarios/";
     }
 
     @GetMapping("/{id}/editar")
@@ -62,7 +51,7 @@ public class PessoaController {
 
         Pessoa pessoa = pessoaService.obterPessoaPorId(id);
         model.addAttribute("funcionario", pessoa);
-        return "editar-pessoa";
+        return "funcionario/editar-funcionario";
 
     }
 
