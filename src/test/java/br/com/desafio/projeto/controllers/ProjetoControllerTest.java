@@ -117,23 +117,6 @@ class ProjetoControllerTest {
         verify(projetoService, times(1)).excluirProjeto(projetoId);
 
         assertEquals("redirect:/projetos/", viewName);
-    }
-
-    // @Test
-    // void testAlterarProjeto() {
-    // Long id = 1L;
-
-    // Projeto projeto = new Projeto();
-    // projeto.setId(id);
-    // projeto.setNome("Projeto 1");
-    // when(projetoService.alterarProjeto(id, projeto)).thenReturn(projeto);
-
-    // String viewName = projetoController.alterarStatusDoProjeto(id, projeto);
-
-    // verify(projetoService, times(1)).alterarProjeto(id, projeto);
-
-    // assertEquals("redirect:/projetos/", viewName);
-    // }
 
     @Test
     void testConsultarProjeto() {

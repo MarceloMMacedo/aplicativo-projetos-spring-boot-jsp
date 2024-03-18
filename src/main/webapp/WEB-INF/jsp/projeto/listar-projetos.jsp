@@ -7,7 +7,6 @@
 <button type="button" class="btn btn-primary m-5" data-bs-toggle="modal" data-bs-target="#adicionarProjetoModal">
   Adicionar Projeto
 </button>
-
     <div class=" m-4">
 		<div class="row">
             <c:forEach items="${projetos}" var="projeto">

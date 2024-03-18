@@ -37,4 +37,8 @@ Contribuições são bem-vindas! Se você encontrar algum problema ou tiver suge
 
 ## Licença
 
+<<<<<<< HEAD
 Este projeto está licenciado sob a [Licença MIT](LICENSE).
+=======
+Este projeto está licenciado sob a [Licença MIT](LICENSE).
+>>>>>>> fb6b448efdb921e7e1def461cdd8d9819487e6b2
