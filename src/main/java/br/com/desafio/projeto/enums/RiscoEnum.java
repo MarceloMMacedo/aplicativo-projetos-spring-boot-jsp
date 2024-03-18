@@ -2,7 +2,7 @@ package br.com.desafio.projeto.enums;
 
 public enum RiscoEnum {
     BAIXORISCO("Baixo Risco", "BAIXO_RISCO"),
-    MEDIORISCO("Médio Risco", "MEDIO_RISCO"),
+    MEDIORISCO("Medio Risco", "MEDIO_RISCO"),
     ALTORISCO("Alto Risco", "ALTO_RISCO");
 
     private final String name;

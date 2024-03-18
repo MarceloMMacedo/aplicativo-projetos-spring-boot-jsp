@@ -1,5 +1,7 @@
 package br.com.desafio.projeto.models;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -8,7 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.com.desafio.projeto.conversores.DatetoStringConverter;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import br.com.desafio.projeto.conversores.StatusCondicionalConverter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,10 +28,9 @@ public class Pessoa {
     @Column(name = "nome", length = 100, nullable = false)
     private String nome;
 
-    @Convert(converter = DatetoStringConverter.class)
-    // @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "datanascimento")
-    private String dataNascimento;
+    private Date dataNascimento;
 
     @Column(name = "cpf", length = 14)
     private String cpf;

@@ -1,6 +1,7 @@
 package br.com.desafio.projeto.services;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
@@ -9,9 +10,11 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import br.com.desafio.projeto.dtos.ProjetoDto;
 import br.com.desafio.projeto.enums.StatusCondicionalEnum;
 import br.com.desafio.projeto.exceptions.EntityNotFoundException;
 import br.com.desafio.projeto.exceptions.UnsavedEntityException;
+import br.com.desafio.projeto.mapper.ProjetosMapper;
 import br.com.desafio.projeto.models.Pessoa;
 import br.com.desafio.projeto.models.Projeto;
 import br.com.desafio.projeto.repositories.PessoaRepository;
@@ -24,6 +27,7 @@ public class ProjetoService {
 
     private final ProjetoRepository projetoRepository;
     private final PessoaRepository pessoaRepository;
+    private final ProjetosMapper projetoMapper;
 
     public Projeto inserirProjeto(Projeto projeto) throws UnsavedEntityException {
         // Lógica para validar e inserir o projeto no banco de dados
@@ -47,17 +51,21 @@ public class ProjetoService {
         // Lógica para alterar os dados do projeto no banco de dados
         try {
             Projeto projeto2 = projetoRepository.findById(id).get();
+            List<Pessoa> membros = projeto2.getMembros();
             BeanUtils.copyProperties(projeto, projeto2, getNullPropertyNames(projeto));
+            projeto2.setMembros(membros);
             return projetoRepository.save(projeto2);
         } catch (Exception ex) {
             throw new UnsavedEntityException("Houve um erro inesperado ao tentar salvar o registro");
         }
     }
 
-    public Projeto consultarProjeto(Long projetoId) throws EntityNotFoundException {
+    public ProjetoDto consultarProjeto(Long projetoId) throws EntityNotFoundException {
         // Lógica para consultar o projeto no banco de dados
-        return projetoRepository.findById(projetoId)
+        Projeto projeto = projetoRepository.findById(projetoId)
                 .orElseThrow(() -> new EntityNotFoundException("Projeto não encontrado com o ID: " + projetoId));
+
+        return projetoMapper.toDateDto(projeto);
     }
 
     public void associarMembroAoProjeto(Long projetoId, Long membroId)
@@ -106,5 +114,26 @@ public class ProjetoService {
         }
         String[] result = new String[emptyNames.size()];
         return emptyNames.toArray(result);
+    }
+
+    public List<ProjetoDto> obterTodosProjetos() {
+        List<ProjetoDto> projetos = projetoMapper.toListDateDto(projetoRepository.findAll());
+        return projetos;
+    }
+
+    public void excluirMembroProjeto(Long projetoId, Long membroId) throws EntityNotFoundException {
+        // Lógica para excluir um membro (Pessoa) do projeto
+        Projeto projeto = projetoRepository.findById(projetoId)
+                .orElseThrow(() -> new EntityNotFoundException("Projeto não encontrado com o ID: " + projetoId));
+        int i = 0;
+        for (Pessoa membro : projeto.getMembros()) {
+            if (membro.getId().equals(membroId)) {
+                projeto.getMembros().remove(i);
+                break;
+            }
+            i++;
+        }
+
+        projetoRepository.save(projeto);
     }
 }

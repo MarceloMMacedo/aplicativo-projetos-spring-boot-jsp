@@ -17,7 +17,8 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ModelAndView entityNotFoundException(EntityNotFoundException ex, WebRequest request) {
-        ModelAndView modelAndView = new ModelAndView("error");
+        ModelAndView modelAndView = new ModelAndView("componentes/error");
+        modelAndView.addObject("failure", true);
         modelAndView.addObject("message", ex.getMessage());
         this.printError(request, ex);
         return modelAndView;
@@ -25,7 +26,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(UnsavedEntityException.class)
     public ModelAndView unsavedEntityException(UnsavedEntityException ex, WebRequest request) {
-        ModelAndView modelAndView = new ModelAndView("error");
+        ModelAndView modelAndView = new ModelAndView("componentes/error");
         modelAndView.addObject("message", ex.getMessage());
         this.printError(request, ex);
         return modelAndView;
@@ -33,7 +34,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(ErrorProcessingException.class)
     public ModelAndView errorProcessingException(ErrorProcessingException ex, WebRequest request) {
-        ModelAndView modelAndView = new ModelAndView("error");
+        ModelAndView modelAndView = new ModelAndView("componentes/error");
         modelAndView.addObject("message", ex.getMessage());
         this.printError(request, ex);
         return modelAndView;
@@ -52,7 +53,7 @@ public class ControllerExceptionHandler {
             }
         }
 
-        ModelAndView modelAndView = new ModelAndView("error");
+        ModelAndView modelAndView = new ModelAndView("componentes/error");
         modelAndView.addObject("message", messages.toString());
         this.printError(request, ex, messages.toString());
         return modelAndView;
@@ -60,7 +61,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView globalExceptionHandler(Exception ex, WebRequest request) {
-        ModelAndView modelAndView = new ModelAndView("error");
+        ModelAndView modelAndView = new ModelAndView("componentes/error");
         modelAndView.addObject("message", ex.getMessage());
         this.printError(request, ex);
         return modelAndView;

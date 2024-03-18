@@ -18,7 +18,8 @@
                     <input type="date" class="form-control" id="dataNascimento" name="dataNascimento" required aria-required="true" value='${funcionario.dataNascimento}'   >             </div>
                 <div class="col-md-6 form-group">
                     <label for="cpf">CPF</label>
-                    <input type="text" class="form-control" id="cpf" name="cpf" required aria-required="true" value="${funcionario.cpf}">
+                    <input type="text" class="form-control" id="cpf" name="cpf" required aria-required="true" >
+                    <span class="text-danger"> CPF:${funcionario.cpf}</span>
                 </div>
                 <div class="col-md-6 form-group">
                     <label for="funcionario">Funcionário</label>

@@ -1,5 +1,7 @@
 package br.com.desafio.projeto.controllers;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +12,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.com.desafio.projeto.dtos.ProjetoDto;
+import br.com.desafio.projeto.enums.StatusCondicionalEnum;
+import br.com.desafio.projeto.models.Pessoa;
 import br.com.desafio.projeto.models.Projeto;
+import br.com.desafio.projeto.repositories.PessoaRepository;
 import br.com.desafio.projeto.services.ProjetoService;
 import lombok.RequiredArgsConstructor;
 
@@ -20,11 +26,34 @@ import lombok.RequiredArgsConstructor;
 public class ProjetoController {
 
     private final ProjetoService projetoService;
+    private final PessoaRepository pessoaRepository;
 
     @PostMapping("/adicionar")
-    public String inserirProjeto(@ModelAttribute Projeto projeto) {
-        projetoService.inserirProjeto(projeto);
-        return "redirect:/projetos/";
+    public String inserirProjeto(@ModelAttribute Projeto projeto, Model model) {
+        model.addAttribute("success", true);
+        model.addAttribute("message", "Projeto adicionado com sucesso!");
+        Projeto projetoInserido = projetoService.inserirProjeto(projeto);
+        return consultarProjeto(projetoInserido.getId(), model);
+    }
+
+    @PostMapping("/atualizar")
+    public String atualizar(@ModelAttribute Projeto projeto, Model model) {
+        projetoService.alterarProjeto(projeto.getId(), projeto);
+        model.addAttribute("success", true);
+        model.addAttribute("message", "Projeto atualizado com sucesso!");
+        return getMethodName(model);
+    }
+
+    @GetMapping("/")
+    public String getMethodName(Model model) {
+        List<Pessoa> gerentes = pessoaRepository.findByGerente(StatusCondicionalEnum.SIM.getName());
+        List<Pessoa> funcionarios = pessoaRepository.findByFuncionario(StatusCondicionalEnum.SIM.getName());
+
+        model.addAttribute("funcionarios", funcionarios);
+        model.addAttribute("gerentes", gerentes);
+
+        model.addAttribute("projetos", projetoService.obterTodosProjetos());
+        return "projeto/listar-projetos";
     }
 
     @PostMapping("/{projetoId}/excluir")
@@ -41,15 +70,45 @@ public class ProjetoController {
 
     @GetMapping("/{projetoId}")
     public String consultarProjeto(@PathVariable Long projetoId, Model model) {
-        Projeto projeto = projetoService.consultarProjeto(projetoId);
+
+        ProjetoDto projeto = projetoService.consultarProjeto(projetoId);
+        List<Pessoa> gerentes = pessoaRepository.findByGerente(StatusCondicionalEnum.SIM.getName());
+        List<Pessoa> funcionarios = pessoaRepository.findByFuncionario(StatusCondicionalEnum.SIM.getName());
+
+        model.addAttribute("funcionarios", funcionarios);
+        model.addAttribute("gerentes", gerentes);
         model.addAttribute("projeto", projeto);
-        return "detalhes-projeto";
+        return "projeto/editar-projeto";
     }
 
-    @PostMapping("/{projetoId}/associar/{membroId}")
-    public String associarMembroAoProjeto(@PathVariable Long projetoId, @PathVariable Long membroId) {
+    @GetMapping("/{projetoId}/associar/{membroId}")
+    public String associarMembroAoProjeto(@PathVariable Long projetoId, @PathVariable Long membroId, Model model) {
         projetoService.associarMembroAoProjeto(projetoId, membroId);
-        return "redirect:/projetos/" + projetoId;
+
+        model.addAttribute("success", true);
+        model.addAttribute("message", "Membro adicionado ao projeto com sucesso!");
+        return consultarProjeto(projetoId, model);
+    }
+
+    @GetMapping("/{projetoId}/adicionar-membros")
+    public String associarMembroPage(@PathVariable Long projetoId, Model model) {
+        List<Pessoa> gerentes = pessoaRepository.findByGerente(StatusCondicionalEnum.SIM.getName());
+        List<Pessoa> funcionarios = pessoaRepository.findByFuncionario(StatusCondicionalEnum.SIM.getName());
+
+        model.addAttribute("projetoId", projetoId);
+        model.addAttribute("funcionarios", funcionarios);
+        model.addAttribute("gerentes", gerentes);
+        return "projeto/adicionar-membro";
+    }
+
+    @GetMapping("/{projetoId}/excluir-membro/{membroId}")
+    public String excluirMenbro(@PathVariable Long projetoId, @PathVariable Long membroId, Model model) {
+
+        model.addAttribute("success", true);
+        model.addAttribute("message", "Membro excluido com sucesso!");
+
+        projetoService.excluirMembroProjeto(projetoId, membroId);
+        return consultarProjeto(projetoId, model);
     }
 
     @PostMapping("/{projetoId}/classificar")

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import br.com.desafio.projeto.dtos.FuncionarioDto;
 import br.com.desafio.projeto.models.Pessoa;
 import br.com.desafio.projeto.services.PessoaService;
 import lombok.RequiredArgsConstructor;
@@ -19,10 +20,12 @@ public class PessoaController {
 
     private final PessoaService pessoaService;
 
-    @GetMapping("/")
+    @GetMapping({ "", "/" })
     public String listarPessoas(Model model) {
         model.addAttribute("funcionarios", pessoaService.obterTodasPessoas());
+
         return "funcionario/listar-funcionarios";
+
     }
 
     @GetMapping("/adicionar")
@@ -32,25 +35,27 @@ public class PessoaController {
     }
 
     @PostMapping("/adicionar")
-    public String adicionarPessoa(@ModelAttribute Pessoa pessoaRequest) {
+    public String adicionarPessoa(@ModelAttribute Pessoa pessoaRequest, Model model) {
 
         pessoaService.criarPessoa(pessoaRequest);
-
+        model.addAttribute("success", "Funcionaário adicionado com sucesso!");
         return "redirect:/funcionarios/";
     }
 
     @PostMapping("/atualizar")
-    public String putMethodName(@ModelAttribute Pessoa pessoa) {
-        pessoaService.atualizarPessoa(pessoa.getId(), pessoa);
-
-        return "redirect:/funcionarios/";
+    public String putMethodName(@ModelAttribute Pessoa funcionario, Model model) {
+        pessoaService.atualizarPessoa(funcionario.getId(), funcionario);
+        model.addAttribute("success", true);
+        model.addAttribute("message", "Funcionaário adicionado com sucesso!");
+        return listarPessoas(model);
     }
 
     @GetMapping("/{id}/editar")
     public String exibirFormularioEditar(@PathVariable Long id, Model model) {
 
-        Pessoa pessoa = pessoaService.obterPessoaPorId(id);
-        model.addAttribute("funcionario", pessoa);
+        FuncionarioDto funcionario = pessoaService.obterPessoaPorId(id);
+
+        model.addAttribute("funcionario", funcionario);
         return "funcionario/editar-funcionario";
 
     }
