@@ -1,4 +1,5 @@
 # Aplicativo para Gestão em Projetos
+## Rodar na Máquila cocal com banco dados H2
 
 Este aplicativo é desenvolvido para auxiliar na gestão de projetos. Ele utiliza as seguintes tecnologias:
 
