@@ -4,6 +4,8 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:layout>
+
+
 <div class="container mt-5" id="mainContainer">
     <h2 id="header">Funcionários</h2>
     <a href="/funcionarios/adicionar" class="btn btn-primary mb-2" id="addFuncionarioButton" aria-label="Adicionar Funcionário">Adicionar Funcionário</a>

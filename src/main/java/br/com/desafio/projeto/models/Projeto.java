@@ -17,6 +17,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import br.com.desafio.projeto.conversores.RiscoConverter;
 import br.com.desafio.projeto.conversores.StatusConverter;
 import lombok.AllArgsConstructor;
@@ -36,12 +38,15 @@ public class Projeto {
     @Column(name = "nome", length = 200, nullable = false)
     private String nome;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "data_inicio")
     private Date dataInicio;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "data_previsao_fim")
     private Date dataPrevisaoFim;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "data_fim")
     private Date dataFim;
 
