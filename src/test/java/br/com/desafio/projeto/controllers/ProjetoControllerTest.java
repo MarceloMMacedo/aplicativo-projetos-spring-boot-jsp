@@ -117,6 +117,7 @@ class ProjetoControllerTest {
         verify(projetoService, times(1)).excluirProjeto(projetoId);
 
         assertEquals("redirect:/projetos/", viewName);
+    }
 
     @Test
     void testConsultarProjeto() {

@@ -21,14 +21,13 @@ public class HomeController {
     @GetMapping("/")
     public String requestMethodName(Model model) {
 
-
-       List<Pessoa> gerentes = pessoaRepository.findByGerente(StatusCondicionalEnum.SIM.getName());
+        List<Pessoa> gerentes = pessoaRepository.findByGerente(StatusCondicionalEnum.SIM.getName());
         List<Pessoa> funcionarios = pessoaRepository.findByFuncionario(StatusCondicionalEnum.SIM.getName());
 
         model.addAttribute("funcionarios", funcionarios);
         model.addAttribute("gerentes", gerentes);
 
-        model.addAttribute("projetos", projetoService.obterTodosProjetos());r
+        model.addAttribute("projetos", projetoService.obterTodosProjetos());
         return "projeto/listar-projetos";
     }
 }
