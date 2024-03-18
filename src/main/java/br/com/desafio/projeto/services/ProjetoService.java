@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.desafio.projeto.dtos.ProjetoDto;
 import br.com.desafio.projeto.enums.StatusCondicionalEnum;
+import br.com.desafio.projeto.enums.StatusEnum;
 import br.com.desafio.projeto.exceptions.EntityNotFoundException;
 import br.com.desafio.projeto.exceptions.UnsavedEntityException;
 import br.com.desafio.projeto.mapper.ProjetosMapper;
@@ -32,6 +33,7 @@ public class ProjetoService {
     public Projeto inserirProjeto(Projeto projeto) throws UnsavedEntityException {
         // Lógica para validar e inserir o projeto no banco de dados
         try {
+            projeto.setStatus(StatusEnum.EMANALISE.getName());
             return projetoRepository.save(projeto);
         } catch (Exception ex) {
             throw new UnsavedEntityException("Houve um erro inesperado ao tentar salvar o registro");
@@ -135,5 +137,49 @@ public class ProjetoService {
         }
 
         projetoRepository.save(projeto);
+    }
+
+    private int obterIndiceEstadoAtual(StatusEnum[] estados, Projeto projeto) {
+        for (int i = 0; i < estados.length; i++) {
+            if (estados[i].getName().equals(projeto.getStatus())) {
+                return i;
+            }
+        }
+        return -1; // Retorna -1 se o estado atual não for encontrado na sequência
+    }
+
+    public boolean alterarStatusEmSequencia(Long projetoId) {
+        Projeto projeto = projetoRepository.findById(projetoId)
+                .orElseThrow(() -> new EntityNotFoundException("Projeto não encontrado com o ID: " + projetoId));
+        if (projeto.getStatus().equals(StatusEnum.ENCERRADO.getName()))
+            return false;
+        StatusEnum[] estados = StatusEnum.values();
+        int indiceEstadoAtual = obterIndiceEstadoAtual(estados, projeto);
+
+        if (indiceEstadoAtual < estados.length) {
+            projeto.setStatus(estados[indiceEstadoAtual + 1].getName());
+
+            projetoRepository.save(projeto);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void cancelarProjeto(Long projetoId) {
+        Projeto projeto = projetoRepository.findById(projetoId)
+                .orElseThrow(() -> new EntityNotFoundException("Projeto não encontrado com o ID: " + projetoId));
+        projeto.setStatus(StatusEnum.CANCELADO.getName());
+        projetoRepository.save(projeto);
+    }
+
+    public List<ProjetoDto> fimtroPorStatus(String status) {
+        if (status.equals("Todos")) {
+            return obterTodosProjetos();
+        }
+        List<ProjetoDto> projetos = projetoMapper.toListDateDto(projetoRepository.findByStatus(status));
+        return projetos;
+
     }
 }

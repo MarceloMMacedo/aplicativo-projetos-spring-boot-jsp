@@ -22,7 +22,7 @@
 
 
 		<c:if test="${failure}">
-			<div class="toast align-items-center text-white bg-alert border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+			<div class="toast align-items-center text-white bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
 
 		<div class="d-flex">
 			<div class="toast-body">

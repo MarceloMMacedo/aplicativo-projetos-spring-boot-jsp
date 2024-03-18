@@ -1,19 +1,21 @@
 package br.com.desafio.projeto.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import br.com.desafio.projeto.dtos.ProjetoDto;
 import br.com.desafio.projeto.enums.StatusCondicionalEnum;
+import br.com.desafio.projeto.enums.StatusEnum;
 import br.com.desafio.projeto.models.Pessoa;
 import br.com.desafio.projeto.models.Projeto;
 import br.com.desafio.projeto.repositories.PessoaRepository;
@@ -48,7 +50,13 @@ public class ProjetoController {
     public String getMethodName(Model model) {
         List<Pessoa> gerentes = pessoaRepository.findByGerente(StatusCondicionalEnum.SIM.getName());
         List<Pessoa> funcionarios = pessoaRepository.findByFuncionario(StatusCondicionalEnum.SIM.getName());
+        List<String> statusList = new ArrayList<>();
+        statusList.add("Todos");
+        for (final StatusEnum statuss : StatusEnum.values()) {
+            statusList.add(statuss.getName());
+        }
 
+        model.addAttribute("status", statusList);
         model.addAttribute("funcionarios", funcionarios);
         model.addAttribute("gerentes", gerentes);
 
@@ -56,15 +64,28 @@ public class ProjetoController {
         return "projeto/listar-projetos";
     }
 
+    @GetMapping("/status/{status}")
+    public String getFiltroStatus(@PathVariable String status, Model model) {
+        List<String> statusList = new ArrayList<>();
+        statusList.add("Todos");
+        for (final StatusEnum statuss : StatusEnum.values()) {
+            statusList.add(statuss.getName());
+        }
+        List<Pessoa> gerentes = pessoaRepository.findByGerente(StatusCondicionalEnum.SIM.getName());
+        List<Pessoa> funcionarios = pessoaRepository.findByFuncionario(StatusCondicionalEnum.SIM.getName());
+
+        model.addAttribute("funcionarios", funcionarios);
+        model.addAttribute("gerentes", gerentes);
+
+        model.addAttribute("status", statusList);
+
+        model.addAttribute("projetos", projetoService.fimtroPorStatus(status));
+        return "projeto/listar-projetos";
+    }
+
     @PostMapping("/{projetoId}/excluir")
     public String excluirProjeto(@PathVariable Long projetoId) {
         projetoService.excluirProjeto(projetoId);
-        return "redirect:/projetos/";
-    }
-
-    @PutMapping("/{id}")
-    public String alterarProjeto(@PathVariable Long id, @ModelAttribute Projeto projeto) {
-        projetoService.alterarProjeto(id, projeto);
         return "redirect:/projetos/";
     }
 
@@ -101,25 +122,41 @@ public class ProjetoController {
         return "projeto/adicionar-membro";
     }
 
-    @GetMapping("/{projetoId}/excluir-membro/{membroId}")
-    public String excluirMenbro(@PathVariable Long projetoId, @PathVariable Long membroId, Model model) {
-
-        model.addAttribute("success", true);
-        model.addAttribute("message", "Membro excluido com sucesso!");
+    @PostMapping("/{projetoId}/excluir-membro/{membroId}")
+    public ResponseEntity<String> excluirMenbro(@PathVariable Long projetoId, @PathVariable Long membroId) {
 
         projetoService.excluirMembroProjeto(projetoId, membroId);
-        return consultarProjeto(projetoId, model);
+        return ResponseEntity.ok("Membro excluido com sucesso!");
     }
 
-    @PostMapping("/{projetoId}/classificar")
-    public String classificarProjeto(@PathVariable Long projetoId, @RequestParam String risco) {
-        projetoService.classificarProjeto(projetoId, risco);
-        return "redirect:/projetos/" + projetoId;
+    @PostMapping("/mudar-status-projeto/{projetoId}")
+    public ResponseEntity<String> mudarStatusProjeto(@PathVariable Long projetoId) {
+        ModelAndView modelAndView = new ModelAndView("projeto/editar-projeto");
+        if (projetoService.alterarStatusEmSequencia(projetoId)) {
+            ProjetoDto projeto = projetoService.consultarProjeto(projetoId);
+            List<Pessoa> gerentes = pessoaRepository.findByGerente(StatusCondicionalEnum.SIM.getName());
+            List<Pessoa> funcionarios = pessoaRepository.findByFuncionario(StatusCondicionalEnum.SIM.getName());
+
+            modelAndView.addObject("funcionarios", funcionarios);
+            modelAndView.addObject("gerentes", gerentes);
+            modelAndView.addObject("projeto", projeto);
+            modelAndView.addObject("success", true);
+            modelAndView.addObject("message",
+                    "O projeto foi alterado para o estadocom sucesso");
+            return ResponseEntity.ok("O projeto foi alterado para o estado com sucesso");
+        } else {
+            modelAndView.addObject("failure", true);
+            modelAndView.addObject("message",
+                    "O projeto não pode ser alterado para o estado final");
+            return ResponseEntity.ok("O projeto não pode ser alterado para o estado final");
+        }
+
     }
 
-    @PostMapping("/{projetoId}/status")
-    public String alterarStatusDoProjeto(@PathVariable Long projetoId, @RequestParam String status) {
-        projetoService.alterarStatusDoProjeto(projetoId, status);
-        return "redirect:/projetos/" + projetoId;
+    @PostMapping("/cancelar-projeto/{projetoId}")
+    public ResponseEntity<String> cancelarProjeto(@PathVariable Long projetoId) {
+        projetoService.cancelarProjeto(projetoId);
+        return ResponseEntity.ok("O projeto foi cancelado com sucesso");
     }
+
 }

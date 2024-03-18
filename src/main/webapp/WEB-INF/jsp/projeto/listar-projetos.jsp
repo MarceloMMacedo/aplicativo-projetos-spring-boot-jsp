@@ -7,6 +7,7 @@
 <button type="button" class="btn btn-primary m-5" data-bs-toggle="modal" data-bs-target="#adicionarProjetoModal">
   Adicionar Projeto
 </button>
+
     <div class=" m-4">
 		<div class="row">
             <c:forEach items="${projetos}" var="projeto">
@@ -99,7 +100,7 @@
                 <textarea class="form-control" id="descricao" name="descricao" rows="3"  required></textarea>
                 </div>
             </div>
-            <div class="row mb-3">
+            <%-- <div class="row mb-3">
                 <label for="status" class="col-sm-2 col-form-label">Status</label>
                 <div class="col-sm-10">
                 <select class="form-select" id="status" name="status"  required>
@@ -121,7 +122,7 @@
                                             Cancelado</option>
                 </select>
                 </div>
-            </div>
+            </div> --%>
             <div class="row mb-3">
                 <label for="orcamento" class="col-sm-2 col-form-label">Orçamento</label>
                 <div class="col-sm-10">
