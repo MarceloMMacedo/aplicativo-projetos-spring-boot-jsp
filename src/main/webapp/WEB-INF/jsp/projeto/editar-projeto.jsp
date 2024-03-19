@@ -213,7 +213,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary"
                                     data-bs-dismiss="modal">Cancelar</button>
-                                <a id="associarLink" href="/projetos/${projetoId}/associar/{funcionarioId}"
+                                <a id="associarLink"   onclick="atualizarLinkAssociar(${projetoId})"
                                     class="btn btn-primary" disabled>Associar Membro</a>
                             </div>
                         </div>
@@ -291,10 +291,10 @@
                             };
                             xhr.send();
                         }
-                        function atualizarLinkAssociar() {
+                        function atualizarLinkAssociar(projetoId) {
                             var selectedOption = document.getElementById("membroSelect").options[document.getElementById("membroSelect").selectedIndex];
                             var selectedId = selectedOption.value;
-                            var linkHref = "/projetos/${projetoId}/associar/" + selectedId;
+                            var linkHref = "/projetos/"+ projetoId + "/associar/" + selectedId;
                             var associarLink = document.getElementById("associarLink");
 
                             associarLink.href = linkHref;
@@ -321,8 +321,10 @@
                             };
                             xhr.send();
                         }
-                        document.getElementById("membroSelect").addEventListener("change", atualizarLinkAssociar);
-                        document.addEventListener("DOMContentLoaded", atualizarLinkAssociar)
+                       try{
+                         document.getElementById("membroSelect").addEventListener("change", atualizarLinkAssociar);
+                        document.addEventListener("DOMContentLoaded", atualizarLinkAssociar)}
+                        catch(e){}
                     </script>
 
                 </t:layout>
