@@ -13,10 +13,14 @@
                             data-bs-target="#confirmModal">Mudar Status</button>
 
                         <button type="button" class="btn btn-danger mb-5" id="mudarStatus" ${projeto.status
-                            eq 'Encerrado' or projeto.status eq 'Cancelado' or projeto.status eq 'Em Andamento' or projeto.status eq 'Iniciado' ? 'disabled' : '' } data-bs-toggle="modal"
+                            eq 'Encerrado' or projeto.status eq 'Cancelado'  or projeto.status eq 'Planejado'
+                              or projeto.status eq 'Planejado' or projeto.status eq 'Em Andamento' or projeto.status eq 'Iniciado' ? 'disabled' : '' } data-bs-toggle="modal"
                             data-bs-target="#confirCancelmModal">
                             Cancelar Projeto</button>
-
+                            <button  type="button" class="btn btn-danger  ml-3 mb-5" data-bs-toggle="modal"
+                                         data-bs-target="#confirExcluiModal"  ${projeto.status eq 'Encerrado'
+                                                        or projeto.status eq 'Em Andamento' or projeto.status eq 'Iniciado' ? 'disabled' : '' } >
+                                                        Excluir Projeto</button>
                         <div class="row mb-3">
                             <label for="nome" class="col-sm-2 col-form-label">Status</label>
                             <div class="col-sm-10">
@@ -215,6 +219,32 @@
                         </div>
                         </div>
                     </div>
+
+ <!-- Modal de exclusão -->
+
+                    <div class="modal fade" id="confirExcluiModal" tabindex="-1"
+                        aria-labelledby="confirmModalLabelcancel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmModalLabelcancel">Confirmação de Mudança de
+                                        Status</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Fechar"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-danger">Deseja Excluir projeto?</p>
+                                    <p> <small>Esta ação não poderá ser desfeita.</small></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary btn-danger"
+                                        onclick="confirmarExcluirProjeto(${projeto.id})">Excluir Projeto</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <script>
                     function excluirMembro(projetoId, membroId) {
                          var xhr = new XMLHttpRequest();
@@ -275,7 +305,22 @@
                                 associarLink.setAttribute("disabled", "disabled");
                             }
                         }
+                        function confirmarExcluirProjeto(projetoId) {
 
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('POST', '/projetos/' + projetoId +'/excluir', true);
+                            xhr.onreadystatechange = function () {
+                                if (xhr.readyState === 4 && xhr.status === 200) {
+                                    var response = xhr.responseText;
+                                    var modal = document.getElementById("confirExcluiModal");
+                                    var bootstrapModal = bootstrap.Modal.getInstance(modal);
+                                    bootstrapModal.hide();
+                                    alert(response);
+                                    window.location.href = "/";
+                                }
+                            };
+                            xhr.send();
+                        }
                         document.getElementById("membroSelect").addEventListener("change", atualizarLinkAssociar);
                         document.addEventListener("DOMContentLoaded", atualizarLinkAssociar)
                     </script>

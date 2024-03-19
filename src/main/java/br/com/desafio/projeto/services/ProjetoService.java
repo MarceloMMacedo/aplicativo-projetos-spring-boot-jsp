@@ -1,5 +1,6 @@
 package br.com.desafio.projeto.services;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -119,7 +120,7 @@ public class ProjetoService {
     }
 
     public List<ProjetoDto> obterTodosProjetos() {
-        List<ProjetoDto> projetos = projetoMapper.toListDateDto(projetoRepository.findAll());
+        final List<ProjetoDto> projetos = projetoMapper.toListDateDto(projetoRepository.findAll());
         return projetos;
     }
 
@@ -158,6 +159,9 @@ public class ProjetoService {
 
         if (indiceEstadoAtual < estados.length) {
             projeto.setStatus(estados[indiceEstadoAtual + 1].getName());
+            if (projeto.getStatus().equals(StatusEnum.ENCERRADO.getName())) {
+                projeto.setDataFim(new Date());
+            }
 
             projetoRepository.save(projeto);
 

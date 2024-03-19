@@ -84,9 +84,9 @@ public class ProjetoController {
     }
 
     @PostMapping("/{projetoId}/excluir")
-    public String excluirProjeto(@PathVariable Long projetoId) {
+    public ResponseEntity<String> excluirProjeto(@PathVariable Long projetoId) {
         projetoService.excluirProjeto(projetoId);
-        return "redirect:/projetos/";
+        return ResponseEntity.ok("Projeto excluido com sucesso");
     }
 
     @GetMapping("/{projetoId}")

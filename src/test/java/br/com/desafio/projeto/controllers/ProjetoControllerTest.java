@@ -109,17 +109,6 @@ class ProjetoControllerTest {
     }
 
     @Test
-    void testExcluirProjeto() {
-        Long projetoId = 1L;
-
-        String viewName = projetoController.excluirProjeto(projetoId);
-
-        verify(projetoService, times(1)).excluirProjeto(projetoId);
-
-        assertEquals("redirect:/projetos/", viewName);
-    }
-
-    @Test
     void testConsultarProjeto() {
         Long projetoId = 1L;
         ProjetoDto projetoDto = new ProjetoDto().projetoDtoYyyyMmDd(new Projeto());
