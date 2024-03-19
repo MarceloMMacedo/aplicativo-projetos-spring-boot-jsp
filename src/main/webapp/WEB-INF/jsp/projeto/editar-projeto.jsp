@@ -13,7 +13,7 @@
                             data-bs-target="#confirmModal">Mudar Status</button>
 
                         <button type="button" class="btn btn-danger mb-5" id="mudarStatus" ${projeto.status
-                            eq 'Encerrado' or projeto.status eq 'Cancelado' ? 'disabled' : '' } data-bs-toggle="modal"
+                            eq 'Encerrado' or projeto.status eq 'Cancelado' or projeto.status eq 'Em Andamento' or projeto.status eq 'Iniciado' ? 'disabled' : '' } data-bs-toggle="modal"
                             data-bs-target="#confirCancelmModal">
                             Cancelar Projeto</button>
 
@@ -63,29 +63,7 @@
                                         name="descricao">${projeto.descricao}</textarea>
                                 </div>
                             </div>
-                            <%-- <div class="row mb-3">
-                                <label for="status" class="col-sm-2 col-form-label">Status</label>
-                                <div class="col-sm-10">
-                                    <select class="form-select" id="status" name="status">
-                                        <option value="Em Analise" ${projeto.status=='Em Analise' ? 'selected' : '' }>Em
-                                            Análise</option>
-                                        <option value="Analise Realizada" ${projeto.status=='Analise Realizada'
-                                            ? 'selected' : '' }>Análise Realizada</option>
-                                        <option value="Analise Aprovada" ${projeto.status=='Analise Aprovada'
-                                            ? 'selected' : '' }>Análise Aprovada</option>
-                                        <option value="Iniciado" ${projeto.status=='Iniciado' ? 'selected' : '' }>
-                                            Iniciado</option>
-                                        <option value="Planejado" ${projeto.status=='Planejado' ? 'selected' : '' }>
-                                            Planejado</option>
-                                        <option value="Em Andamento" ${projeto.status=='Em Andamento' ? 'selected' : ''
-                                            }>Em Andamento</option>
-                                        <option value="Encerrado" ${projeto.status=='Encerrado' ? 'selected' : '' }>
-                                            Encerrado</option>
-                                        <option value="Cancelado" ${projeto.status=='Cancelado' ? 'selected' : '' }>
-                                            Cancelado</option>
-                                    </select>
-                                </div>
-                    </div> --%>
+
                     <div class="row mb-3">
                         <label for="orcamento" class="col-sm-2 col-form-label">Orçamento</label>
                         <div class="col-sm-10">
