@@ -13,12 +13,12 @@
                             data-bs-target="#confirmModal">Mudar Status</button>
 
                         <button type="button" class="btn btn-danger mb-5" id="mudarStatus" ${projeto.status
-                            eq 'Encerrado' or projeto.status eq 'Cancelado'  or projeto.status eq 'Planejado'
+                            eq 'Encerrado' or projeto.status eq 'Cancelado'
                               or projeto.status eq 'Planejado' or projeto.status eq 'Em Andamento' or projeto.status eq 'Iniciado' ? 'disabled' : '' } data-bs-toggle="modal"
                             data-bs-target="#confirCancelmModal">
                             Cancelar Projeto</button>
                             <button  type="button" class="btn btn-danger  ml-3 mb-5" data-bs-toggle="modal"
-                                         data-bs-target="#confirExcluiModal"  ${projeto.status eq 'Encerrado'
+                                         data-bs-target="#confirExcluiModal"  ${projeto.status eq 'Encerrado'  or projeto.status eq 'Planejado'
                                                         or projeto.status eq 'Em Andamento' or projeto.status eq 'Iniciado' ? 'disabled' : '' } >
                                                         Excluir Projeto</button>
                         <div class="row mb-3">
