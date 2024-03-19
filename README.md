@@ -1,11 +1,18 @@
 # Aplicativo para Gestão em Projetos
-## Rodar na Máquina Local com banco dados H2
+## Rodar na Máquina Local com banco dados H2 ou Container Docker
 
 Este aplicativo é desenvolvido para auxiliar na gestão de projetos. Ele utiliza as seguintes tecnologias:
 
-- Banco de Dados: H2 (utilizado para testes)
+- Banco de Dados: H2 (utilizado para desenvolvimento ) Postgresql(para anbiente de teste)
 - Linguagem de Programação: Java 1.8 com Spring Boot
 - Framework: JSP (JavaServer Pages)
+ ## variaveis de Ambientes:
+
+ - POSTGRES_PASSWORD=password
+ - POSTGRES_USER=username
+ - POSTGRES_DB=db-desafio
+ - DB_SERVER=localhost
+ - PROFILE = dev para banco dados H2 ou test para banco dados Postgresql.
 
 ## Funcionalidades
 
@@ -23,6 +30,7 @@ Para executar o aplicativo, certifique-se de ter as seguintes ferramentas instal
 
 - Java Development Kit (JDK) 1.8 ou superior
 - Maven (para gerenciamento de dependências)
+- docker-compose up -d
 
 ## Executando o Aplicativo
 

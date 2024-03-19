@@ -35,7 +35,7 @@ public class ProjetoController {
         model.addAttribute("success", true);
         model.addAttribute("message", "Projeto adicionado com sucesso!");
         Projeto projetoInserido = projetoService.inserirProjeto(projeto);
-        return consultarProjeto(projetoInserido.getId(), model);
+        return "redirect:/projetos/" + projetoInserido.getId();
     }
 
     @PostMapping("/atualizar")
