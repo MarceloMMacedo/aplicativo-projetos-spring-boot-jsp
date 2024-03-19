@@ -29,8 +29,9 @@ Para executar o aplicativo, certifique-se de ter as seguintes ferramentas instal
 1. Clone este repositório para o seu ambiente local.
 2. Navegue até o diretório raiz do projeto.
 3. Execute o seguinte comando para compilar e executar o aplicativo:
+4. comando mvn **spring-boot:run**
 
-4. O aplicativo estará disponível em `http://localhost:8080`.
+5. O aplicativo estará disponível em `http://localhost:8080`.
 
 ## Contribuição
 
