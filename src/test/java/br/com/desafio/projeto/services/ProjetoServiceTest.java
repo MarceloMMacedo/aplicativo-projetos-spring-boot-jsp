@@ -45,10 +45,10 @@ public class ProjetoServiceTest {
 
     @Test
     public void testInserirProjeto() throws UnsavedEntityException {
-        Projeto projeto = new Projeto();
+        final Projeto projeto = new Projeto();
         when(projetoRepository.save(any(Projeto.class))).thenReturn(projeto);
 
-        Projeto result = projetoService.inserirProjeto(projeto);
+        final Projeto result = projetoService.inserirProjeto(projeto);
 
         Assertions.assertNotNull(result);
         verify(projetoRepository, times(1)).save(projeto);
@@ -89,7 +89,7 @@ public class ProjetoServiceTest {
         when(projetoRepository.findById(id)).thenReturn(Optional.of(projeto2));
         when(projetoRepository.save(any(Projeto.class))).thenReturn(projeto2);
 
-        Projeto result = projetoService.alterarProjeto(id, projeto);
+        final Projeto result = projetoService.alterarProjeto(id, projeto);
 
         Assertions.assertNotNull(result);
         verify(projetoRepository, times(1)).findById(id);
@@ -105,7 +105,7 @@ public class ProjetoServiceTest {
         when(projetoRepository.findById(projetoId)).thenReturn(Optional.of(projeto));
         when(projetoMapper.toDateDto(projeto)).thenReturn(projetoDto);
 
-        ProjetoDto result = projetoService.consultarProjeto(projetoId);
+        final ProjetoDto result = projetoService.consultarProjeto(projetoId);
 
         Assertions.assertNotNull(result);
         verify(projetoRepository, times(1)).findById(projetoId);
@@ -141,8 +141,6 @@ public class ProjetoServiceTest {
         verify(pessoaRepository, never()).findById(anyLong());
         verify(projetoRepository, never()).save(any(Projeto.class));
     }
-
- 
 
     @Test
     public void testClassificarProjeto() throws EntityNotFoundException {
@@ -212,7 +210,7 @@ public class ProjetoServiceTest {
         when(projetoRepository.findAll()).thenReturn(projetos);
         when(projetoMapper.toListDateDto(projetos)).thenReturn(projetoDtos);
 
-        List<ProjetoDto> result = projetoService.obterTodosProjetos();
+        final List<ProjetoDto> result = projetoService.obterTodosProjetos();
 
         Assertions.assertNotNull(result);
         verify(projetoRepository, times(1)).findAll();

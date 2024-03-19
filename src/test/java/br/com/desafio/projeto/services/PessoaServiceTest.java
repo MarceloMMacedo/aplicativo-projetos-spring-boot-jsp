@@ -39,10 +39,10 @@ class PessoaServiceTest {
 
     @Test
     void testCriarPessoa() throws UnsavedEntityException {
-        Pessoa pessoa = new Pessoa();
+        final Pessoa pessoa = new Pessoa();
         when(pessoaRepository.save(pessoa)).thenReturn(pessoa);
 
-        Pessoa result = pessoaService.criarPessoa(pessoa);
+        final Pessoa result = pessoaService.criarPessoa(pessoa);
 
         assertEquals(pessoa, result);
         verify(pessoaRepository, times(1)).save(pessoa);
@@ -50,13 +50,13 @@ class PessoaServiceTest {
 
     @Test
     void testObterTodasPessoas() {
-        List<Pessoa> pessoas = new ArrayList<>();
+        final List<Pessoa> pessoas = new ArrayList<>();
         when(pessoaRepository.findAll()).thenReturn(pessoas);
 
-        List<FuncionarioDto> funcionarioDtos = new ArrayList<>();
+        final List<FuncionarioDto> funcionarioDtos = new ArrayList<>();
         when(funcionarioMapper.toListDateDto(pessoas)).thenReturn(funcionarioDtos);
 
-        List<FuncionarioDto> result = pessoaService.obterTodasPessoas();
+        final List<FuncionarioDto> result = pessoaService.obterTodasPessoas();
 
         assertEquals(funcionarioDtos, result);
         verify(pessoaRepository, times(1)).findAll();

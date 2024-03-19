@@ -46,7 +46,7 @@ class PessoaControllerTest {
 
         when(pessoaService.obterTodasPessoas()).thenReturn(pessoas);
 
-        String viewName = pessoaController.listarPessoas(model);
+        final String viewName = pessoaController.listarPessoas(model);
 
         verify(pessoaService, times(1)).obterTodasPessoas();
         verify(model, times(1)).addAttribute("funcionarios", pessoas);
@@ -56,7 +56,7 @@ class PessoaControllerTest {
 
     @Test
     void testExibirFormularioAdicionar() {
-        String viewName = pessoaController.exibirFormularioAdicionar(model);
+        final String viewName = pessoaController.exibirFormularioAdicionar(model);
 
         verify(model, times(1)).addAttribute("funcionario", new Pessoa());
         assertEquals("funcionario/adicionar-funcionario", viewName);
@@ -68,7 +68,7 @@ class PessoaControllerTest {
         pessoa.setId(1L);
         pessoa.setNome("João");
 
-        String viewName = pessoaController.atualizarPessoa(1L, pessoa);
+        final String viewName = pessoaController.atualizarPessoa(1L, pessoa);
 
         verify(pessoaService, times(1)).atualizarPessoa(pessoa);
         assertEquals("redirect:/funcionarios/", viewName);
@@ -83,7 +83,7 @@ class PessoaControllerTest {
 
         when(pessoaService.obterPessoaPorId(id)).thenReturn(funcionario);
 
-        String viewName = pessoaController.exibirFormularioEditar(id, model);
+        final String viewName = pessoaController.exibirFormularioEditar(id, model);
 
         verify(pessoaService, times(1)).obterPessoaPorId(id);
         verify(model, times(1)).addAttribute("funcionario", funcionario);
@@ -94,7 +94,7 @@ class PessoaControllerTest {
     void testExcluirPessoa() {
         Long id = 1L;
 
-        String viewName = pessoaController.excluirPessoa(id);
+        final String viewName = pessoaController.excluirPessoa(id);
 
         verify(pessoaService, times(1)).excluirPessoa(id);
         assertEquals("redirect:/funcionarios/", viewName);

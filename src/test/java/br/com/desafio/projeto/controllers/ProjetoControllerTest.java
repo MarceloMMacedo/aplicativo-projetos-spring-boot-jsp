@@ -46,7 +46,7 @@ class ProjetoControllerTest {
         projeto.setNome("Projeto 1");
         when(projetoService.inserirProjeto(projeto)).thenReturn(projeto);
 
-        String viewName = projetoController.inserirProjeto(projeto, model);
+        final String viewName = projetoController.inserirProjeto(projeto, model);
 
         verify(projetoService, times(1)).inserirProjeto(projeto);
         verify(model, times(1)).addAttribute("success", true);
@@ -61,7 +61,7 @@ class ProjetoControllerTest {
         projeto.setId(1L);
         projeto.setNome("Projeto 1");
 
-        String viewName = projetoController.atualizar(projeto, model);
+        final String viewName = projetoController.atualizar(projeto, model);
 
         verify(projetoService, times(1)).alterarProjeto(projeto.getId(), projeto);
         verify(model, times(1)).addAttribute("success", true);
@@ -96,7 +96,7 @@ class ProjetoControllerTest {
         when(pessoaRepository.findByFuncionario(StatusCondicionalEnum.SIM.getName())).thenReturn(funcionarios);
         when(projetoService.obterTodosProjetos()).thenReturn(projetos);
 
-        String viewName = projetoController.getMethodName(model);
+        final String viewName = projetoController.getMethodName(model);
 
         verify(pessoaRepository, times(1)).findByGerente(StatusCondicionalEnum.SIM.getName());
         verify(pessoaRepository, times(1)).findByFuncionario(StatusCondicionalEnum.SIM.getName());
@@ -133,7 +133,7 @@ class ProjetoControllerTest {
         when(pessoaRepository.findByGerente(StatusCondicionalEnum.SIM.getName())).thenReturn(gerentes);
         when(pessoaRepository.findByFuncionario(StatusCondicionalEnum.SIM.getName())).thenReturn(funcionarios);
 
-        String viewName = projetoController.consultarProjeto(projetoId, model);
+        final String viewName = projetoController.consultarProjeto(projetoId, model);
 
         verify(projetoService, times(1)).consultarProjeto(projetoId);
         verify(pessoaRepository, times(1)).findByGerente(StatusCondicionalEnum.SIM.getName());
@@ -150,7 +150,7 @@ class ProjetoControllerTest {
         Long projetoId = 1L;
         Long membroId = 2L;
 
-        String viewName = projetoController.associarMembroAoProjeto(projetoId, membroId, model);
+        final String viewName = projetoController.associarMembroAoProjeto(projetoId, membroId, model);
 
         verify(projetoService, times(1)).associarMembroAoProjeto(projetoId, membroId);
         verify(model, times(1)).addAttribute("success", true);
@@ -177,7 +177,7 @@ class ProjetoControllerTest {
         funcionarios.add(funcionario);
         funcionarios.add(funcionario);
 
-        String viewName = projetoController.associarMembroPage(projetoId, model);
+        final String viewName = projetoController.associarMembroPage(projetoId, model);
 
         verify(pessoaRepository, times(1)).findByGerente(StatusCondicionalEnum.SIM.getName());
         verify(pessoaRepository, times(1)).findByFuncionario(StatusCondicionalEnum.SIM.getName());
