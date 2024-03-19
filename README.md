@@ -1,9 +1,9 @@
 # Aplicativo para Gestão em Projetos
-## Rodar na Máquila Local com banco dados H2
+## Rodar na Máquina Local com banco dados H2
 
 Este aplicativo é desenvolvido para auxiliar na gestão de projetos. Ele utiliza as seguintes tecnologias:
 
-- Banco de Dados: Postgresql (utilizado para testes)
+- Banco de Dados: H2 (utilizado para testes)
 - Linguagem de Programação: Java 1.8 com Spring Boot
 - Framework: JSP (JavaServer Pages)
 
