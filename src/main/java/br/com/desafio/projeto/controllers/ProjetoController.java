@@ -43,7 +43,7 @@ public class ProjetoController {
         projetoService.alterarProjeto(projeto.getId(), projeto);
         model.addAttribute("success", true);
         model.addAttribute("message", "Projeto atualizado com sucesso!");
-        return getMethodName(model);
+        return consultarProjeto(projeto.getId(), model);
     }
 
     @GetMapping("/")
